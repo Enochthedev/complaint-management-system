@@ -1,14 +1,7 @@
 {
-  "buildCommand": "pnpm build",
-  "outputDirectory": ".next",
   "framework": "nextjs",
-  "installCommand": "pnpm install",
-  "devCommand": "pnpm dev",
   "regions": ["iad1"],
   "functions": {
-    "src/app/**/*.tsx": {
-      "maxDuration": 30
-    },
     "src/app/api/**/*.ts": {
       "maxDuration": 30
     }
@@ -49,7 +42,25 @@
       ]
     },
     {
-      "source": "/(.*\\.(ico|png|jpg|jpeg|gif|webp|svg|css|js))",
+      "source": "/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/_next/static/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/favicon.ico",
       "headers": [
         {
           "key": "Cache-Control",
