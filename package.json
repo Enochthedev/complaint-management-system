@@ -10,7 +10,6 @@
     "lint:fix": "next lint --fix",
     "type-check": "tsc --noEmit",
     "build:analyze": "ANALYZE=true npm run build",
-    "postbuild": "next-sitemap",
     "preview": "next build && next start"
   },
   "dependencies": {
