@@ -46,8 +46,8 @@ export class NotificationService {
       // await this.triggerEmailFunction(notification);
 
       return true;
-    } catch (error) {
-      console.error("Error sending notification:", error);
+    } catch (err) {
+      console.error("Error sending notification:", err);
       return false;
     }
   }
@@ -121,7 +121,7 @@ export class NotificationService {
   }
 
   // Email templates
-  private getEmailTemplate(type: string, data: any) {
+  private getEmailTemplate(type: string, data: Record<string, unknown>) {
     const templates = {
       complaint_submitted: {
         subject: `New Complaint Submitted - ${data.courseCode}`,

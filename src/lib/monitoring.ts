@@ -8,7 +8,7 @@ interface ErrorReport {
   timestamp: string;
   userId?: string;
   severity: "low" | "medium" | "high" | "critical";
-  context?: Record<string, any>;
+  context?: Record<string, unknown>;
 }
 
 class ErrorTracker {
@@ -25,7 +25,7 @@ class ErrorTracker {
   // Log error to console and external service
   logError(
     error: Error,
-    context?: Record<string, any>,
+    context?: Record<string, unknown>,
     severity: ErrorReport["severity"] = "medium"
   ) {
     const errorReport: ErrorReport = {
@@ -49,7 +49,7 @@ class ErrorTracker {
   }
 
   // Log authentication failures
-  logAuthFailure(reason: string, context?: Record<string, any>) {
+  logAuthFailure(reason: string, context?: Record<string, unknown>) {
     this.logError(
       new Error(`Authentication failed: ${reason}`),
       {
@@ -105,9 +105,9 @@ class ErrorTracker {
           // Silently fail if logging service is down
         });
       }
-    } catch (error) {
+    } catch (err) {
       // Silently fail if external service is unavailable
-      console.warn("Failed to send error to external service:", error);
+      console.warn("Failed to send error to external service:", err);
     }
   }
 }
@@ -176,15 +176,16 @@ export class PerformanceMonitor {
     return firstPaint ? firstPaint.startTime : null;
   }
 
-  private async sendPerformanceData(metrics: any) {
+  private async sendPerformanceData(metrics: Record<string, unknown>) {
     try {
       await fetch("/api/monitoring/performance", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(metrics),
       });
-    } catch (error) {
+    } catch (err) {
       // Silently fail
+      console.warn("Failed to send performance data:", err);
     }
   }
 }

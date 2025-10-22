@@ -4,12 +4,14 @@ const nextConfig: NextConfig = {
   // Enable experimental features
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
-    turbo: {
-      rules: {
-        "*.svg": {
-          loaders: ["@svgr/webpack"],
-          as: "*.js",
-        },
+  },
+
+  // Turbopack configuration
+  turbopack: {
+    rules: {
+      "*.svg": {
+        loaders: ["@svgr/webpack"],
+        as: "*.js",
       },
     },
   },
@@ -118,8 +120,10 @@ const nextConfig: NextConfig = {
   }),
 
   // Performance optimizations
-  swcMinify: true,
   poweredByHeader: false,
+
+  // Output file tracing to fix workspace root warning
+  outputFileTracingRoot: __dirname,
 
   // Environment variables validation
   env: {
