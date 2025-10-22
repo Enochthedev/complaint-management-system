@@ -35,8 +35,9 @@ const nextConfig: NextConfig = {
         isDev ? "'unsafe-eval' 'unsafe-inline'" : "'unsafe-inline'"
       } https://www.googletagmanager.com https://www.google-analytics.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
-      img-src 'self' blob: data: https://www.google-analytics.com;
-      font-src 'self' https://fonts.gstatic.com;
+      img-src 'self' blob: data: https: https://www.google-analytics.com;
+      font-src 'self' data: https://fonts.gstatic.com;
+      connect-src 'self' https://*.supabase.co wss://*.supabase.co https://www.google-analytics.com https://www.googletagmanager.com;
       object-src 'none';
       base-uri 'self';
       form-action 'self';
