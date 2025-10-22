@@ -33,7 +33,7 @@ const nextConfig: NextConfig = {
       default-src 'self';
       script-src 'self' ${
         isDev ? "'unsafe-eval' 'unsafe-inline'" : "'unsafe-inline'"
-      } https://www.googletagmanager.com https://www.google-analytics.com;
+      } blob: https://www.googletagmanager.com https://www.google-analytics.com;
       style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
       img-src 'self' blob: data: https: https://www.google-analytics.com;
       font-src 'self' data: https://fonts.gstatic.com;

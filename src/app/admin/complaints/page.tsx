@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useSearchParams } from "next/navigation";
 import { createSupabaseClient } from "@/lib/supabase";
 import {
   Card,
@@ -42,12 +43,24 @@ const initialFilters: FilterState = {
 };
 
 export default function AdminComplaintsPage() {
+  const searchParams = useSearchParams();
   const [complaints, setComplaints] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedComplaints, setSelectedComplaints] = useState<string[]>([]);
   const [filters, setFilters] = useState<FilterState>(initialFilters);
   const { toast } = useToast();
   const supabase = createSupabaseClient();
+
+  // Initialize filters from URL parameters
+  useEffect(() => {
+    const statusParam = searchParams.get("status");
+    if (statusParam) {
+      setFilters((prev) => ({
+        ...prev,
+        status: [statusParam],
+      }));
+    }
+  }, [searchParams]);
 
   const fetchComplaints = async () => {
     setLoading(true);

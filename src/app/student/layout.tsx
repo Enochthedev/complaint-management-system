@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { StudentLayoutWrapper } from "@/components/layout/StudentLayoutWrapper";
 
 export const metadata: Metadata = {
   title: {
@@ -17,5 +18,5 @@ export default function StudentLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return children;
+  return <StudentLayoutWrapper>{children}</StudentLayoutWrapper>;
 }

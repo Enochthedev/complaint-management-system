@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { redirect } from "next/navigation";
 import { createSupabaseClient } from "@/lib/supabase";
 import { AdminSidebar } from "@/components/layout/AdminSidebar";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
 import { Toaster } from "@/components/ui/sonner";
 
 export default function AdminLayout({
@@ -50,8 +51,18 @@ export default function AdminLayout({
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      <div className="flex h-screen items-center justify-center bg-gray-50/50 dark:bg-gray-950/50">
+        <div className="flex flex-col items-center gap-4">
+          <LoadingSpinner size="lg" />
+          <div className="text-center">
+            <p className="text-lg font-semibold text-gray-900 dark:text-white">
+              Loading Admin Portal
+            </p>
+            <p className="text-sm text-gray-500 dark:text-gray-400">
+              Verifying permissions and setting up dashboard...
+            </p>
+          </div>
+        </div>
       </div>
     );
   }
@@ -61,15 +72,34 @@ export default function AdminLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-background">
+    <div className="flex h-screen bg-gray-50/50 dark:bg-gray-950/50">
       <AdminSidebar
         profile={profile}
         mobileMenuOpen={mobileMenuOpen}
         setMobileMenuOpen={setMobileMenuOpen}
       />
-      <main className="flex-1 overflow-y-auto lg:ml-64 bg-muted/30">
-        <div className="container mx-auto p-6">{children}</div>
-      </main>
+
+      {/* Main content */}
+      <div className="flex-1 lg:pl-64">
+        {/* Mobile header spacer */}
+        <div className="lg:hidden h-16" />
+
+        {/* Page content with proper padding and max width */}
+        <main className="flex-1 overflow-auto">
+          <div className="container mx-auto px-4 py-6 lg:px-8 lg:py-8 max-w-7xl">
+            {children}
+          </div>
+        </main>
+      </div>
+
+      {/* Mobile overlay */}
+      {mobileMenuOpen && (
+        <div
+          className="lg:hidden fixed inset-0 z-20 bg-black/50 backdrop-blur-sm"
+          onClick={() => setMobileMenuOpen(false)}
+        />
+      )}
+
       <Toaster />
     </div>
   );

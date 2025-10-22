@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { createSupabaseClient } from "@/lib/supabase";
 import { Button } from "@/components/ui/button";
+
 import { Input } from "@/components/ui/input";
 import {
   Card,
@@ -16,7 +17,13 @@ import {
 } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
-import { Loader2 } from "lucide-react";
+import {
+  Loader2,
+  GraduationCap,
+  Shield,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -135,31 +142,46 @@ export default function LoginPage() {
   };
 
   return (
-    <Card>
-      <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-center">
+    <Card className="border-0 bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm shadow-2xl animate-in slide-in-from-bottom-8 duration-700">
+      <CardHeader className="space-y-4 text-center">
+        <div className="flex items-center justify-center mb-4">
+          <div className="p-3 rounded-lg bg-primary/10 dark:bg-primary/20">
+            {loginType === "student" ? (
+              <GraduationCap className="h-8 w-8 text-primary" />
+            ) : (
+              <Shield className="h-8 w-8 text-red-600" />
+            )}
+          </div>
+        </div>
+        <CardTitle className="text-2xl font-bold text-gray-900 dark:text-white">
           Welcome Back
         </CardTitle>
-        <CardDescription className="text-center">
+        <CardDescription className="text-gray-600 dark:text-gray-400">
           Login to your UI CS Complaint System account
         </CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleLogin} className="space-y-4">
-          {/* Login Type Toggle */}
-          <div className="grid grid-cols-2 gap-2">
+          {/* Simplified Login Type Toggle */}
+          <div className="grid grid-cols-2 gap-2 p-1 bg-gray-100 dark:bg-gray-800 rounded-lg">
             <Button
               type="button"
-              variant={loginType === "student" ? "default" : "outline"}
+              variant={loginType === "student" ? "default" : "ghost"}
               onClick={() => setLoginType("student")}
+              className="transition-colors duration-200"
             >
+              <GraduationCap className="mr-2 h-4 w-4" />
               Student
             </Button>
             <Button
               type="button"
-              variant={loginType === "admin" ? "default" : "outline"}
+              variant={loginType === "admin" ? "default" : "ghost"}
               onClick={() => setLoginType("admin")}
+              className={`transition-colors duration-200 ${
+                loginType === "admin" ? "bg-red-600 hover:bg-red-700" : ""
+              }`}
             >
+              <Shield className="mr-2 h-4 w-4" />
               Admin
             </Button>
           </div>
@@ -209,7 +231,13 @@ export default function LoginPage() {
           </div>
 
           {/* Submit Button */}
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button
+            type="submit"
+            className={`w-full transition-colors duration-200 ${
+              loginType === "admin" ? "bg-red-600 hover:bg-red-700" : ""
+            }`}
+            disabled={loading}
+          >
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
@@ -227,7 +255,7 @@ export default function LoginPage() {
             Don't have an account?{" "}
             <Link
               href="/auth/register"
-              className="text-primary hover:underline"
+              className="text-primary hover:underline transition-colors duration-200"
             >
               Register here
             </Link>
